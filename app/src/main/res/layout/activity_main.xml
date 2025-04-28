@@ -3,39 +3,213 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:id="@+id/main"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/background_green"
+        android:gravity="center"
         tools:context=".ui.MainActivity">
 
-        <ImageView
-            android:id="@+id/maleicon"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            android:src="@drawable/maleicon"
-        />
+            android:background="@drawable/shape_bg_player_info"
+            android:gravity="center"
+            android:layout_marginStart="14dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="14dp"
+            android:layout_marginEnd="14dp"
+            android:orientation="vertical">
 
-        <ImageView
-            android:id="@+id/femaleicon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toEndOf="@id/maleicon"
-            android:src="@drawable/femaleicon"
-        />
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/hello_user"
+                android:textColor="@color/disabled_gray"
+                android:textStyle="bold" />
 
-        <Button
-            android:id="@+id/button1"
-            app:layout_constraintTop_toBottomOf="@id/femaleicon"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/send"
-        />
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:textAlignment="center"
+                android:layout_marginStart="18dp"
+                android:layout_marginEnd="18dp"
+                android:layout_marginTop="12dp"
+                android:text="@string/user_info_hint" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="46dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="46dp">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                    android:textColor="@color/black"
+                    app:layout_constraintTop_toTopOf="@id/framelayout_female"
+                    app:layout_constraintBottom_toBottomOf="@id/framelayout_female"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    android:text="@string/gender" />
+
+
+                <FrameLayout
+                    android:id="@+id/framelayout_male"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintRight_toLeftOf="@id/framelayout_female"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <ImageView
+                        android:id="@+id/imageview_male_selected"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/shape_gender_selected"
+                        android:paddingLeft="10dp"
+                        android:paddingTop="8dp"
+                        android:paddingRight="10dp"
+                        android:paddingBottom="8dp"
+                        android:layout_margin="4dp"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/maleicon" />
+
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/cardview_male_not_selected"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="4dp"
+                        app:cardCornerRadius="10dp"
+                        app:cardElevation="2dp">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginRight="10dp"
+                            android:layout_marginBottom="8dp"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/maleicon" />
+
+                    </androidx.cardview.widget.CardView>
+
+                </FrameLayout>
+
+                <FrameLayout
+                    android:id="@+id/framelayout_female"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <ImageView
+                        android:id="@+id/imageview_female_selected"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/shape_gender_selected"
+                        android:paddingLeft="8dp"
+                        android:paddingTop="8dp"
+                        android:paddingRight="8dp"
+                        android:paddingBottom="8dp"
+                        android:layout_margin="4dp"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/femaleicon" />
+
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/cardview_female_not_selected"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="4dp"
+                        app:cardCornerRadius="10dp"
+                        app:cardElevation="2dp">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="8dp"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginRight="8dp"
+                            android:layout_marginBottom="8dp"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/femaleicon" />
+
+                    </androidx.cardview.widget.CardView>
+
+                </FrameLayout>
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                    android:textColor="@color/black"
+                    app:layout_constraintTop_toTopOf="@id/framelayout_age"
+                    app:layout_constraintBottom_toBottomOf="@id/framelayout_age"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    android:text="@string/age" />
+
+
+                <FrameLayout
+                    android:id="@+id/framelayout_age"
+                    android:layout_width="0dp"
+                    android:layout_height="30dp"
+                    android:layout_marginTop="16dp"
+                    android:background="@drawable/shape_bg_age"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginEnd="4dp"
+                    app:layout_constraintLeft_toLeftOf="@id/framelayout_male"
+                    app:layout_constraintRight_toRightOf="@id/framelayout_female"
+                    app:layout_constraintTop_toBottomOf="@id/framelayout_male">
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/textview_age"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:textAlignment="center"
+                        android:textColor="@color/black"
+                        android:textStyle="bold|italic"
+                        tools:text="24" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical|end"
+                        android:layout_marginEnd="12dp"
+                        android:src="@drawable/ic_collapse" />
+
+                </FrameLayout>
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/button_next"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_marginTop="20dp"
+                android:insetLeft="0dp"
+                android:insetTop="0dp"
+                android:insetRight="0dp"
+                android:insetBottom="0dp"
+                android:letterSpacing="0"
+                android:text="@string/next"
+                android:textAlignment="center"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="14sp"
+                app:backgroundTint="@color/color_button_next"
+                app:cornerRadius="6dp" />
+
+        </LinearLayout>
+
+
+    </LinearLayout>
 </layout>

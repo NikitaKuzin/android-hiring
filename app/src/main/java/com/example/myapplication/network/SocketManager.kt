@@ -1,27 +1,76 @@
 package com.example.myapplication.network
 
 import android.util.Log
+import com.example.myapplication.data.model.Player
+import com.example.myapplication.data.model.ResultEvent
+import com.google.gson.Gson
+import java.io.BufferedReader
+import java.io.BufferedWriter
 import java.io.DataInputStream
+import java.io.InputStreamReader
+import java.io.OutputStreamWriter
+import java.io.PrintWriter
+import java.net.InetSocketAddress
 import java.net.Socket
 import java.nio.ByteBuffer
+import javax.inject.Inject
+import javax.inject.Singleton
+
 
 private const val TAG = "SocketManager"
 
-class SocketManager(
-    private val address: String,
-    private val port: Int
+@Singleton
+class SocketManager @Inject constructor(
+    private val gson: Gson
 ) {
+
+    private var address: String? = null
+    private var port: Int? = null
+
     private var socket: Socket? = null
 
-    fun connect() {
-        socket = Socket(address, port)
+    private var errorListener: ErrorListener? = null
+
+    fun setErrorListener(listener: ErrorListener) {
+        errorListener = listener
+    }
+
+    fun connect(address: String, port: Int) {
+        try {
+            if (socket == null) {
+                socket = Socket(address, port)
+            }
+            if (!socket!!.isConnected) {
+                socket!!.connect(InetSocketAddress(address, port))
+            }
+
+            this.address = address
+            this.port = port
+
+        } catch (e: Exception) {
+            errorListener?.onError(e.message.orEmpty())
+        }
 
         Log.d(TAG, "connected: ${socket?.isConnected}")
     }
 
-    fun send(request: TestRequest) {
-        val message = "{ request }" // <- request
+    fun send(player: Player): ResultEvent? {
+        if (address != null && port != null) {
+            connect(address!!, port!!)
+        } else {
+            return null
+        }
 
+        val message = gson.toJson(player) // <- request
+
+        Log.i(TAG, "sending: $message")
+
+        send(message)
+
+        return gson.fromJson(receive(), ResultEvent::class.java)
+    }
+
+    private fun send(message: String) {
         Log.i(TAG, "sending: $message")
 
         val messageBytes = message.toByteArray()
@@ -33,7 +82,7 @@ class SocketManager(
         outputStream?.flush()
     }
 
-    fun receive(): TestResponse {
+    private fun receive(): String {
         val inputStream = DataInputStream(socket?.getInputStream())
 
         val lengthBytes = ByteArray(4)
@@ -46,11 +95,17 @@ class SocketManager(
 
         Log.d(TAG, "received: $message")
 
-        return TestResponse(false) // <- message
+        return message // <- message
     }
 
     fun close() {
         socket?.close()
         socket = null
+        address = null
+        port = null
+    }
+
+    interface ErrorListener {
+        fun onError(message: String)
     }
 }
